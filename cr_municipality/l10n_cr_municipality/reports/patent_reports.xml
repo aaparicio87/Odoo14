@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="report_patent_aprob_mcr" model="ir.actions.report">
+            <field name="name">Resolucion de Aprobacion / Order</field>
+            <field name="model">l10n_cr.patent</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">l10n_cr_municipality.report_aprob_mcr</field>
+            <field name="report_file">l10n_cr_municipality.report_aprob_mcr</field>
+            <field name="binding_model_id" ref="model_l10n_cr_patent"/>
+            <field name="binding_type">report</field>
+            <field name="binding_model_id" eval="False"/>
+        </record>
+        <record id="report_patent_aprob_licor" model="ir.actions.report">
+            <field name="name">Resolucion de Aprobacion / Order</field>
+            <field name="model">l10n_cr.patent</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">l10n_cr_municipality.report_aprob_licor</field>
+            <field name="report_file">l10n_cr_municipality.report_aprob_licor</field>
+            <field name="binding_model_id" ref="model_l10n_cr_patent"/>
+            <field name="binding_type">report</field>
+            <field name="binding_model_id" eval="False"/>
+        </record>
+        <record id="report_patent_deneg_mcr" model="ir.actions.report">
+            <field name="name">Resolucion de Denegacion / Order</field>
+            <field name="model">l10n_cr.patent</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">l10n_cr_municipality.report_deneg_mcr</field>
+            <field name="report_file">l10n_cr_municipality.report_deneg_mcr</field>
+            <field name="binding_model_id" ref="model_l10n_cr_patent"/>
+            <field name="binding_type">report</field>
+            <field name="binding_model_id" eval="False"/>
+            </record>
+        <record id="report_patent_deneg_licor" model="ir.actions.report">
+            <field name="name">Resolucion de Denegacion</field>
+            <field name="model">l10n_cr.patent</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">l10n_cr_municipality.report_deneg_licor</field>
+            <field name="report_file">l10n_cr_municipality.report_deneg_licor</field>
+            <field name="binding_model_id" ref="model_l10n_cr_patent"/>
+            <field name="binding_type">report</field>
+            <field name="binding_model_id" eval="False"/>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="l10n_cr_patent_view_form" model="ir.ui.view">
+        <field name="name">l10n_cr.patent.view.form</field>
+        <field name="model">l10n_cr.patent</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="process" type="object" string="Procesar" class="oe_highlight" 
+                    states="requested"/> 
+                    <button name="approve" type="object" string="Aprobar" class="oe_highlight" 
+                    states="in_progress"/>
+                    <button name="reject" type="object" string="Denegar" class="oe_highlight"
+                    states="in_progress"/>
+                    <button name="print_approve" type="object" string="Imprimir Resolución" class="oe_highlight"
+                    states="approved"/>
+                    <button name="print_cert" type="object" string="Imprimir Certificado" class="oe_highlight"
+                    states="approved"/>
+                    <button name="print_reject" type="object" string="Imprimir Resolución" class="oe_highlight"
+                    states="rejected"/>                   
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <field name="sale_id" invisible="1"/>
+                        <button class="oe_stat_button"
+                            type="object"
+                            name="action_view_sale"
+                            attrs="{'invisible': [('sale_id', '=', False)]}"
+                            icon="fa-usd"
+                            string="Venta"/>
+                    </div>
+                    <h2>
+                        <field name="name"/>
+                    </h2>
+                    <group>
+                        <group name="information" string="Information">
+                            <field name="partner_id"/>
+                            <field name="solicitation_date"/>
+                            <field name="type_id"/>
+                            <field name="type_code" invisible="1"/>
+                            <field name="company_id" invisible="1"/>
+                            <field name="county_id" invisible="1"/>
+                            <field name="fantasy_name"/>
+                            <field name="needs_liqueur" attrs="{'invisible': [('is_liqueur', '=', True)]}"/>
+                            <field name="activity_ids" widget="many2many_tags"/>
+                            <field name="commercial_activity"/>
+                            <field name="regimen"/>
+                            <field name="category"/>
+                            <field name="req_deliver_id"  widget="many2many_tags"/>
+                            <field name="req_miss_id" widget="many2many_tags"/>
+                            <field name="pay_to"/>
+                        </group>
+                        <group name="land" string="Land">
+                            <field name="land_id"/>
+                            <field name="address"/>
+                            <field name="property_owner"/>
+                            <field name="district_id"/>
+                            <field name="plan_number"/>
+                            <field name="relation_type"/>
+                            <field name="area"/>
+                            <field name="land_use_number"/>
+                            <field name="sanitary_permit"/>
+                            <field name="sanitary_permit_expiration"/>
+                            <field name="comply_7600"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group name="financial" string="Información Financiera"
+                            attrs="{'invisible': [('is_liqueur', '=', True)]}">
+                            <field name="income_total"/>
+                            <field name="yearly_payment" attrs="{'readonly': [('type_code', '!=', 'TM')]}"/>
+                            <field name="trimester_payment"/>
+                        </group>
+                        <group name="liqueur" string="Datos Patente Licor"
+                            attrs="{'invisible': [('is_liqueur', '=', False) ]}">
+                            <field name="is_liqueur" invisible="1"/>
+                            <field name="employees"/>
+                            <field name="actives_value"/>
+                            <field name="sales_value"/>
+                            <field name="score"/>
+                            <field name="yearly_payment"/>
+                            <field name="trimester_payment"/>
+                            <field name="category_liqueur"/>
+                            <field name="subcategory_liqueur"/>
+                            <field name="liqueur_open_hour" widget="float_time"/>
+                            <field name="liqueur_close_hour" widget="float_time"/>
+                        </group>
+                        <group name="liqueur_rel" string="Datos Patente Licor"
+                            attrs="{'invisible': [('needs_liqueur', '=', False)]}">
+                            <field name="liqueur_patent_id"/>
+                            <field name="employees_rel"/>
+                            <field name="actives_value_rel"/>
+                            <field name="sales_value_rel"/>
+                            <field name="score"/>
+                            <field name="yearly_payment_rel"/>
+                            <field name="trimester_payment_rel"/>
+                            <field name="category_liqueur_rel"/>
+                            <field name="subcategory_liqueur_rel"/>
+                            <field name="liqueur_open_hour_rel" widget="float_time"/>
+                            <field name="liqueur_close_hour_rel" widget="float_time"/>
+                        </group>
+                    </group>
+                    <group class="oe_subtotal_footer oe_right" colspan="2" name="total">
+                        <field name="currency_id" invisible="1"/>
+                        <field name="timbre"/>
+                        <field name="yearly_payment_subtotal"/>
+                        <div class="oe_subtotal_footer_separator oe_inline o_td_label">
+                            <label for="trimester_payment_total"/>
+                        </div>
+                        <field name="trimester_payment_total" nolabel="1" class="oe_subtotal_footer_separator"/>
+                        <field name="yearly_payment_total"/>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="l10n_cr_patent_view_tree" model="ir.ui.view">
+        <field name="name">l10n_cr.patent.view.tree</field>
+        <field name="model">l10n_cr.patent</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="partner_id"/>
+                <field name="type_id"/>
+                <field name="land_id"/>
+                <field name="district_id"/>
+                <field name="state"/>
+                <field name="resolution_date"/>
+                <field name="pay_to"/>
+            </tree>
+        </field>
+    </record>
+        
+   
+
+    <record id="l10n_cr_patent_action" model="ir.actions.act_window">
+        <field name="name">Patents</field>
+        <field name="res_model">l10n_cr.patent</field>
+        <field name="view_mode">tree,form</field>
+        
+    </record>
+
+    <menuitem
+        id="l10n_cr_patent_menu"
+        parent="main_municipality_menu"
+        action="l10n_cr_patent_action"
+        sequence="3"
+    />
+</odoo>

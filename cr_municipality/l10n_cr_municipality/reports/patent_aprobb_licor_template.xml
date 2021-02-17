@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+<template id="report_aprob_licor">
+    <t t-call="web.html_container">
+        <t t-foreach="docs" t-as="o">
+            <t t-call="l10n_cr_municipality.report_aprob_licor_document" t-lang="o.partner_id.lang"/>
+        </t>
+    </t>
+</template>
+
+<template id="report_aprob_licor_document">
+        <t t-set="o" t-value="o.with_context(lang=o.partner_id.lang)"/>
+            <t t-call="web.html_container">
+                <t t-call="web.basic_layout">
+                    <style>
+                        *{
+                            font-family: arial, sans-serif;
+                            font-size: 12pt;
+                            text-align: justify;
+                        }
+
+                        .bold {
+                            font-weight: bold;
+                        }
+
+                        .italic {
+                            font-style: italic;
+                        }
+
+                        .center {
+                            text-align: center;
+                        }
+
+                        .row{
+                            margin-bottom: 1rem;
+                        }
+
+                        .row:last-of-type {
+                                    margin-bottom: 0;
+                        }
+
+                        .place{
+                            font-size: 14pt;
+                            display: flex; 
+                            justify-content: flex-end;
+                        }
+                        .place1{
+                            font-size: 14pt;
+                            display: flex; 
+                            justify-content: flex-end;
+                            margin-left: 80px;
+                        }
+
+                    </style>
+
+                    <div class="page">
+                        <div class="container">
+                            <div class="row mb-5">
+                                    <div class="col-7">
+                                        <img t-if="o.company_id.logo" t-att-src="image_data_uri(o.company_id.logo)" style="max-height: 45px;" alt="Logo"/>
+                                    </div>
+                                    <div class="col-5 font-weight-bold text-primary" style="font-size: 14pt;">
+                                        <div class="place">MUNICIPALIDAD DE RIO CUARTO</div>
+                                        <div class="place1">RIO CUARTO, ALAJUELA</div>
+                                    </div>
+                            </div>
+                            <div class="row bold">
+                                <div class="col-12 text-center">
+                                    <t t-set="year" t-value="context_timestamp(datetime.datetime.now()).strftime('%Y')"/>
+                                    RESOLUCIÓN N° RES-PT-<t t-esc="o.name"/>-<t t-esc="year"/></span>   
+                                </div>
+                            </div>
+                            <div class="row pl-1" style="text-align: justify;">
+                                <t t-set="hour" t-value="context_timestamp(datetime.datetime.now()).strftime('%I')"/>
+                                    <t t-set="minute" t-value="context_timestamp(datetime.datetime.now()).strftime('%M')"/>
+                                    <t t-set="day" t-value="context_timestamp(datetime.datetime.now()).strftime('%d')"/>
+                                    <t t-set="month" t-value="context_timestamp(datetime.datetime.now()).strftime('%B')"/>
+                                    <t t-set="year" t-value="context_timestamp(datetime.datetime.now()).strftime('%Y')"/>
+                                    <p>
+                                        <span class="font-weight-bold">MUNICIPALIDAD DE RÍO CUARTO. 
+                                        OFICINA DE PATENTES</span>,<span> a las <t t-esc="hour"/> horas y 
+                                        <t t-esc="minute"/> minutos del <t t-esc="day"/> de <t t-esc="month"/> 
+                                        de <t t-esc="year"/></span>.
+                                    </p>
+                            </div>
+                            <div class="row">
+                                <div class="col-12 text-center bold">
+                                    RESULTANDOS
+                                </div>
+                            </div>
+                            <div class="row" style="text-align: justify;">
+                                <div class="col-12 text-justify pl-5">
+                                    <ol>
+                                        <li>
+                                            <t t-set="date_solicitation" t-value="datetime.datetime.strptime(str(o.solicitation_date), '%Y-%m-%d')"/>
+                                            <t t-set="day_solicitation" t-value="context_timestamp(date_solicitation).strftime('%d')"/>
+                                            <t t-set="month_solicitation" t-value="context_timestamp(date_solicitation).strftime('%B')"/>
+                                            <t t-set="year_solicitation" t-value="context_timestamp(date_solicitation).strftime('%Y')"/>
+                                            <p> 
+                                                Que en fecha <t t-esc="day_solicitation"/> de <t t-esc="month_solicitation"/> 
+                                                del <t t-esc="year_solicitation"/> , se hizo presente a este 
+                                                despacho el señor / la señora <t t-esc="o.partner_id.name"/>, portador (a) de 
+                                                la cédula de identidad número <t t-esc="o.partner_id.vat"/>, vecino (a) del
+                                                distrito de <t t-esc="o.partner_id.state_id.name"/>. <t t-esc="o.partner_id.country_id.name"/>  ,
+                                                <t t-esc="o.partner_id.district_id.name"/>, 
+                                                <t t-if="o.partner_id.parent_id.name">
+                                                en representación de la sociedad t t-esc="o.partner_id.parent_id.name"/>, titular de la cédula jurídica número 
+                                                <t t-esc="o.partner_id.parent_id.vat"/>;
+                                                </t>
+                                                <t t-else="">
+                                                en representación de la sociedad no aplica, titular de la cédula jurídica número no aplica;
+                                                </t>       
+                                                a solicitar la Licencia de explotación de bebidas con contenido alcohólico en el establecimiento 
+                                                denominado <t t-esc="o.fantasy_name"/>, que cuenta con la patente número <t t-esc="o.name"/>, y se encuentra ubicado en el 
+                                                inmueble inscrito en el partido de Alajuela, número de folio real <t t-esc="o.land_id.folio"/>, ubicado en <t t-esc="o.land_id.address"/> propiedad de 
+                                                <t t-esc="o.land_id.partner_id.name"/>, portador de la cédula de identidad número <t t-esc="o.land_id.partner_id.vat"/>.
+                                            </p>
+                                        </li>
+                                        <li>
+                                            <p>
+                                                <t t-if="len(o.req_deliver_id)">
+                                                    <t t-set="foo" t-value=""/>
+                                                    <t t-foreach="o.req_deliver_id" t-as="r">
+                                                       <t t-if="r_first">
+                                                        <t t-set="foo" t-value="r.name"/>
+                                                       </t>
+                                                       <t t-else="">
+                                                        <t t-set="foo" t-value="foo+','+r.name"/>
+                                                       </t>
+                                                    </t>
+                                                </t>
+                                                Que se tienen por incorporados al expediente administrativo los siguientes 
+                                                documentos: <t t-esc="foo"/>
+                                            </p>
+                                        </li> 
+                                        <li>
+                                             <p>
+                                                Que una vez revisada la solicitud y los documentos 
+                                                incorporados junto con esta al expediente se elevó la 
+                                                misma a la correspondiente etapa de análisis y revisión.
+                                             </p>
+                                        </li>
+                                    </ol>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12 text-center bold">
+                                    CONSIDERANDOS
+                                </div>
+                            </div>
+                            <div class="row" style="text-align: justify;">
+                                <div class="col-12 text-justify">
+                                            <p> 
+                                                <span class="bold">Primero. </span>
+                                                Que una vez analizada toda la documentación aportada al expediente 
+                                                administrativo número <t t-esc="o.name"/> en relación a lo dispuesto en la Ley de 
+                                                Regulación y Comercialización de Bebidas con Contenido Alcohólico, Ley N°9047, 
+                                                así como en estricto apego a la Ley General de la Administración Pública se 
+                                                determina que cumple a cabalidad los requisitos establecidos en la normativa 
+                                                vigente para la comercialización de bebidas alcohólicas con licencia tipo 
+                                                <t t-esc="o.category_liqueur"/> en <t t-esc="o.fantasy_name"/>
+                                            </p>
+                                            <p>
+                                                <span class="bold">Segundo. </span>
+                                                La licencia de comercialización de bebidas con contenido alcohólico tendrá 
+                                                una vigencia de cinco años, prorrogable de forma automática por períodos iguales, 
+                                                siempre y cuando se cumplan todos los requisitos legales establecidos al momento de 
+                                                otorgar la prórroga y se encuentren al día en el pago de todas sus obligaciones con 
+                                                la Municipalidad de Río Cuarto.
+                                            </p>
+                                            <p>
+                                                <t t-set="calc_open_hour" t-value="'{0:02.0f}:{1:02.0f}'.format(*divmod(float(o.liqueur_open_hour) * 60, 60))"/>
+                                                <t t-set="calc_closed_hour" t-value="'{0:02.0f}:{1:02.0f}'.format(*divmod(float(o.liqueur_close_hour) * 60, 60))"/>
+                                                <span class="bold">Tercero. </span>
+                                                En relación al tipo de licencia <t t-esc="o.category_liqueur"/> y 
+                                                la actividad de <t t-esc="o.activity_ids.name"/> el horario para 
+                                                el expendio de bebidas con contenido alcohólico será de 
+                                                <t t-esc="calc_open_hour"/> a <t t-esc="calc_closed_hour"/>.
+                                            </p>
+                                            <p>
+                                                <span class="bold">Cuarto. </span>De acuerdo con la documentación presentada, 
+                                                la persona solicitante pertenece al tipo de licencia <t t-esc="o.category_liqueur"/>,
+                                                por consiguiente y en relación a los parámetros para determinar la potencialidad 
+                                                establecidos por el artículo 10 de la Ley N° 9047 y la ubicación del local comercial, se determina 
+                                                en cantidad en letras (<t t-esc="o.currency_id.amount_to_text(o.trimester_payment_total)"/>) 
+                                                la suma pagar de manera trimestral por concepto de la licencia otorgada. Monto que puede 
+                                                variar de acuerdo al valor de las ventas anuales netas del último período fiscal y al 
+                                                valor de los activos totales netos del último período fiscal. El pago respectivo de la licencia 
+                                                otorgada es por trimestre. Sumas que se encuentran al cobro de la siguiente manera: el primer 
+                                                trimestre se comienza a cobrar el 1° de enero; el segundo trimestre puede ser a partir del 1° 
+                                                de marzo; el tercer trimestre se encuentra al cobro desde el 1° de junio; por su parte el 
+                                                cuarto trimestre puede ser pagado a partir del primero de enero de cada de cada año.
+                                            </p>
+                                            <p>
+                                                <span class="bold">Quinto. </span>
+                                                El pago tardío habilita el cobro de los intereses correspondientes y puede 
+                                                implicar la pérdida de la licencia otorgada. Consecuencia que puede 
+                                                derivarse -también- del incumplimiento de cualquier otro requisito 
+                                                necesario para la comercialización de bebidas con contenido alcohólico, 
+                                                así como, cuando se produzca la venta, canje, arrendamiento, transferencia,
+                                                traspaso o cualquier tipo de enajenación de la licencia, ya que esta es 
+                                                intransferible y no constituye un activo.
+                                            </p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12 text-center bold">
+                                    POR TANTO
+                                </div>
+                            </div>
+                            <div class="row" style="text-align: justify">
+                                <div class="col-12 text-justify">
+                                    <p>
+                                        <t t-set="calc_open_hour" t-value="'{0:02.0f}:{1:02.0f}'.format(*divmod(float(o.liqueur_open_hour) * 60, 60))"/>
+                                        <t t-set="calc_closed_hour" t-value="'{0:02.0f}:{1:02.0f}'.format(*divmod(float(o.liqueur_close_hour) * 60, 60))"/>
+                                        Con fundamento en lo expuesto se OTORGA a nombre del señor 
+                                        <t t-esc="o.partner_id.name.upper()"/>, portador de la cédula de identidad número
+                                        <t t-esc="o.partner_id.vat"/> la licencia de 
+                                        explotación de bebidas alcohólicas con contenido alcohólico tipo <t t-esc="o.category_liqueur"/> en 
+                                        <t t-esc="o.fantasy_name"/> en un horario de <t t-esc="calc_open_hour"/> a <t t-esc="calc_closed_hour"/>,
+                                        con una vigencia prorrogable de cinco años. Quien a su vez deberá 
+                                        cancelar en favor de la Municipalidad de Río Cuarto las sumas correspondientes.
+                                        Es indispensable la cancelación previa del monto de cantidad en letras (<t t-esc="o.currency_id.amount_to_text(o.partner_id.outstanding)"/>). 
+                                        El pago por trimestre será de cantidad en letras (<t t-esc="o.currency_id.amount_to_text(o.trimester_payment_total)"/>). Contra esta resolución 
+                                        caben los recursos de revocatoria y apelación en subsidio, de conformidad con el numeral 
+                                        171 del Código Municipal.NOTIFÍQUESE. -
+                                    </p>     
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top:100px;margin-bottom: 0cm; line-height: 100%;">
+                                <div class="col-12 text-center bold">
+                                    <t t-esc="request.env.user.name.upper()"/>
+                                    <div class="col-12 text-center bold">
+                                        Encargado de Patentes
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" style="text-align: justify; padding-top: 80px;">
+                                <div class="col-12 text-justify bold italic">
+                                        <p>
+                                            *Se informa a las personas jurídicas a las 
+                                            cuales se les otorgue la licencia deberán 
+                                            presentar cada dos años, en el mes de octubre, 
+                                            una declaración jurada bajo fe de juramento de 
+                                            su capital accionario a la Municipalidad.
+                                        </p>
+                                </div>
+                            </div>
+                        </div>
+                       
+                    </div>
+
+                </t>
+            </t>
+    </template>
+</odoo>

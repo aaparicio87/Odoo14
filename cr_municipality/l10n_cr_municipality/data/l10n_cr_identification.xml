@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="identification_identity" model="l10n_cr.identification">
+        <field name="name">Cédula de Identidad</field>
+    </record>
+    <record id="identification_residency" model="l10n_cr.identification">
+        <field name="name">Cédula de Residencia</field>
+    </record>
+    <record id="identification_juridical" model="l10n_cr.identification">
+        <field name="name">Cédula Jurídica</field>
+    </record>
+    <record id="identification_passport" model="l10n_cr.identification">
+        <field name="name">Pasaporte</field>
+    </record>
+    <record id="identification_dimex" model="l10n_cr.identification">
+        <field name="name">DIMEX</field>
+    </record>
+    <record id="identification_nite" model="l10n_cr.identification">
+        <field name="name">NITE</field>
+    </record>
+    <record id="identification_carnet" model="l10n_cr.identification">
+        <field name="name">Carnét de Refugiado</field>
+    </record>
+</odoo>

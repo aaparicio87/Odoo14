@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="res_partner_view_form" model="ir.ui.view">
+        <field name="name">res.partner.view.form.inherit.municipality</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <div class="o_row" position="after">
+                <div class="o_row">
+                    <label for="alias"/>
+                    <field name="alias"/>
+                </div>
+            </div>
+            <field name="vat" position="after">
+                <field name="identification_id" widget="selection"/>
+            </field>
+            <field name="category_id" position="after">
+                <field name="taxpayer"/>
+                <field name="outstanding"/>
+                <field name="condition"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="taxpayer_action" model="ir.actions.act_window">
+        <field name="name">Taxpayers</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem
+        id="taxpayer_menu"
+        parent="main_municipality_menu"
+        action="taxpayer_action"
+        sequence="1"
+    />
+</odoo>

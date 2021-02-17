@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<template id="report_aprob_mcr">
+    <t t-call="web.html_container">
+        <t t-foreach="docs" t-as="o">
+            <t t-call="l10n_cr_municipality.report_aprob_mcr_document" t-lang="o.partner_id.lang"/>
+        </t>
+    </t>
+</template>
+<template id="report_aprob_mcr_document">
+     <t t-set="o" t-value="o.with_context(lang=o.partner_id.lang)" />
+        <t t-call="web.html_container">
+            <t t-call="web.basic_layout">
+                    <style>
+                        *{
+                            font-family: arial, sans-serif;
+                            font-size: 12pt;
+                            text-align: justify;
+                        }
+
+                        .bold {
+                            font-weight: bold;
+                        }
+
+                        .italic {
+                            font-style: italic;
+                        }
+
+                        .center {
+                            text-align: center;
+                        }
+
+                        .row{
+                            margin-bottom: 1rem;
+                        }
+
+                        .row:last-of-type {
+                                    margin-bottom: 0;
+                        }
+
+                        .place{
+                            font-size: 14pt;
+                            display: flex; 
+                            justify-content: flex-end;
+                        }
+                        .place1{
+                            font-size: 14pt;
+                            display: flex; 
+                            justify-content: flex-end;
+                            margin-left: 80px;
+                        }
+
+                    </style>
+
+                    <div class="page">
+                        <div class="container">
+                            <div class="row mb-5">
+                                    <div class="col-7">
+                                        <img t-if="o.company_id.logo" t-att-src="image_data_uri(o.company_id.logo)" style="max-height: 45px;" alt="Logo"/>
+                                    </div>
+                                    <div class="col-5 font-weight-bold text-primary" style="font-size: 14pt;">
+                                        <div class="place">MUNICIPALIDAD DE RIO CUARTO</div>
+                                        <div class="place1">RIO CUARTO, ALAJUELA</div>
+                                    </div>
+                            </div>
+                            <div class="row bold">
+                                <div class="col-12 text-center">
+                                    <t t-set="year" t-value="context_timestamp(datetime.datetime.now()).strftime('%Y')"/>
+                                    RESOLUCIÓN N° RES-PT-<t t-esc="o.name"/>-<t t-esc="year"/></span>   
+                                </div>
+                            </div>
+                            <div class="row pl-1" style="text-align: justify;">
+                                <t t-set="hour" t-value="context_timestamp(datetime.datetime.now()).strftime('%I')"/>
+                                    <t t-set="minute" t-value="context_timestamp(datetime.datetime.now()).strftime('%M')"/>
+                                    <t t-set="day" t-value="context_timestamp(datetime.datetime.now()).strftime('%d')"/>
+                                    <t t-set="month" t-value="context_timestamp(datetime.datetime.now()).strftime('%B')"/>
+                                    <t t-set="year" t-value="context_timestamp(datetime.datetime.now()).strftime('%Y')"/>
+                                    <p>
+                                        <span class="font-weight-bold">MUNICIPALIDAD DE RÍO CUARTO. 
+                                        OFICINA DE PATENTES</span>,<span> a las <t t-esc="hour"/> horas y 
+                                        <t t-esc="minute"/> minutos del <t t-esc="day"/> de <t t-esc="month"/> 
+                                        de <t t-esc="year"/></span>.
+                                    </p>
+                            </div>
+                            <div class="row">
+                                <div class="col-12 text-center bold">
+                                    RESULTANDOS
+                                </div>
+                            </div>
+                            <div class="row" style="text-align: justify">
+                                <div class="col-12 text-justify pl-5">
+                                    <ol>
+                                        <li>
+                                            <t t-set="date_solicitation" t-value="datetime.datetime.strptime(str(o.solicitation_date), '%Y-%m-%d')"/>
+                                            <t t-set="day_solicitation" t-value="context_timestamp(date_solicitation).strftime('%d')"/>
+                                            <t t-set="month_solicitation" t-value="context_timestamp(date_solicitation).strftime('%B')"/>
+                                            <t t-set="year_solicitation" t-value="context_timestamp(date_solicitation).strftime('%Y')"/>
+                                            <p> 
+                                                Que en fecha <t t-esc="day_solicitation"/> de <t t-esc="month_solicitation"/> 
+                                                del <t t-esc="year_solicitation"/> , se hizo presente a este 
+                                                despacho el señor / la señora <t t-esc="o.partner_id.name"/>, portador (a) de 
+                                                la cédula de identidad número <t t-esc="o.partner_id.vat"/>, vecino (a) del
+                                                distrito de <t t-esc="o.partner_id.state_id.name"/>. <t t-esc="o.partner_id.country_id.name"/>  ,
+                                                <t t-esc="o.partner_id.district_id.name"/>, 
+                                                <t t-if="o.partner_id.parent_id.name">
+                                                en representación de la sociedad <t t-esc="o.partner_id.parent_id.name"/>, titular de la cédula jurídica número 
+                                                <t t-esc="o.partner_id.parent_id.vat"/>;
+                                                </t>
+                                                <t t-else="">
+                                                en representación de la sociedad no aplica, titular de la cédula jurídica número no aplica;
+                                                </t>       
+                                                para el ejercicio de la actividad comercial de <t t-esc="o.commercial_activity"/> en el inmueble 
+                                                inscrito en el partido de Alajuela, número de folio real <t t-esc="o.land_id.folio"/>, 
+                                                ubicado en, <t t-esc="o.land_id.address"/> propiedad de <t t-esc="o.land_id.partner_id.name"/>,
+                                                portador de la cédula de identidad número <t t-esc="o.land_id.partner_id.vat"/>.
+                                            </p>
+                                        </li>
+                                        <li>
+                                            <p>
+                                                <t t-if="len(o.req_deliver_id)">
+                                                    <t t-set="foo" t-value=""/>
+                                                    <t t-foreach="o.req_deliver_id" t-as="r">
+                                                       <t t-if="r_first">
+                                                        <t t-set="foo" t-value="r.name"/>
+                                                       </t>
+                                                       <t t-else="">
+                                                        <t t-set="foo" t-value="foo+','+r.name"/>
+                                                       </t>
+                                                    </t>
+                                                </t>
+                                                Que se tienen por incorporados al expediente administrativo los siguientes 
+                                                documentos: <t t-esc="foo"/>
+                                            </p>
+                                        </li>
+                                        <li>
+                                             <p>
+                                                Que una vez revisada la solicitud y los documentos 
+                                                incorporados junto con esta al expediente se elevó la 
+                                                misma a la correspondiente etapa de análisis y revisión.
+                                            </p>
+                                        </li> 
+                                    </ol>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12 text-center bold">
+                                    CONSIDERANDOS
+                                </div>
+                            </div>
+                            <div class="row" style="text-align: justify">
+                                <div class="col-12 text-justify">
+                                            <p> 
+                                                <span class="bold">Primero. </span>
+                                                Que una vez analizada toda la 
+                                                documentación aportada al expediente administrativo número <t t-esc="o.name"/>-el presente año en 
+                                                relación a lo dispuesto en la Ley de Patentes del Cantón de Río Cuarto, 
+                                                Ley N°9932 del Cantón de Río Cuarto, Ley N°9932, publicada en el 
+                                                Diario Oficial La Gaceta No. 18 del 27 de enero de el presente año; el artículo 88 y 
+                                                siguientes del Código Municipal; así como en estricto apego a la Ley General 
+                                                de la Administración Pública se determina que cumple a cabalidad los requisitos 
+                                                establecidos en la normativa vigente.
+                                            </p>
+                                            <p>
+                                                <span class="bold">Segundo. </span>
+                                                De acuerdo con la documentación presentada, la persona solicitante pertenece al 
+                                                régimen tributario denominado <t t-esc="o.regimen"/>, por consiguiente y en 
+                                                relación a los ingresos demostrados se determina que la suma anual a pagar por 
+                                                impuesto de patentes por la licencia comercial otorgada es de cantidad en letras 
+                                                (<t t-esc="o.currency_id.amount_to_text(o.yearly_payment_subtotal)"/>), siendo la
+                                                suma de cantidad en letras (<t t-esc="o.currency_id.amount_to_text(o.trimester_payment_total)"/>)
+                                                el monto a pagar de manera trimestral, todas correspondientes al periodo del año 
+                                                en curso.
+                                            </p>
+                                            <p>
+                                                <span style="margin-left:57px;">Las sumas a pagar para los siguientes periodos 
+                                                se fijarán de forma anual con base a la</span>
+                                                declaración que deberá rendir la persona patentada dentro de los primeros 15 
+                                                días hábiles del mes de enero.
+                                            </p>
+                                            <p>
+                                                <span style="margin-left:57px;">El pago respectivo de la Licencia Comercial es por trimestre. 
+                                                Sumas que se encuentran</span>al cobro de la siguiente manera: el primer trimestre se comienza a 
+                                                cobrar el 1° de enero; el segundo trimestre puede ser a partir del 1° de marzo; el tercer trimestre 
+                                                se encuentra al cobro desde el 1° de junio; por su parte el cuarto trimestre puede ser pagado a partir 
+                                                del primero de enero de cada de cada año.
+                                            </p>
+                                            <p>
+                                                <span class="bold">Tercero. </span>
+                                                La Ley de Patentes del Cantón de Río 
+                                                Cuarto, Ley N°9932, en su artículo 16 establece que los contribuyentes del impuesto 
+                                                de patentes deberán presentar a la Municipalidad, una declaración jurada con sus 
+                                                ingresos brutos en los primeros quince días (15) hábiles del mes de enero y se 
+                                                calculará el impuesto de patentes respectivo para ese año. De estar autorizados por 
+                                                la Dirección General de Tributación, a presentar la declaración del impuesto de renta en 
+                                                una fecha diferente, podrán presentar la declaración municipal diez días después de la 
+                                                fecha autorizada por esa Dirección. En caso de que el contribuyente no presente la 
+                                                respectiva declaración jurada, la Municipalidad, en el ejercicio de sus potestades de 
+                                                Administración Tributaria le asignará la calificación del año anterior, salvo que se 
+                                                determine necesidad de recalificar dicha patente. De omitirse la obligación de declarar 
+                                                en el plazo establecido la Administración Municipal impondrá las multas de acuerdo lo
+                                                establecido en el artículo 25 de la Ley N° 9932.
+                                            </p>
+                                            <p>
+                                                <span class="bold">Cuarto. </span>
+                                                El pago tardío de las 
+                                                obligaciones tributarias habilita el cobro de los intereses 
+                                                correspondientes y puede implicar el cierre del establecimiento comercial. 
+                                                Consecuencia que puede derivarse -también- del incumplimiento de cualquier otro 
+                                                requisito necesario para el debido funcionamiento.
+                                            </p>
+                                            <p>
+                                                <span class="bold">Quinto. </span>
+                                                Los trámites de traspaso, traslado y 
+                                                la cancelación deben realizarse ante las autoridades municipales y no podrán presumirse 
+                                                o realizarse de oficio. El impuesto de patentes se pagará todo el tiempo que se posea dicha 
+                                                licencia, aunque la actividad no se haya ejercido, por lo que es pertinente realizar los
+                                                trámites correspondientes cuando ya no desee ejercer la actividad.
+                                            </p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12 text-center bold">
+                                    POR TANTO
+                                </div>
+                            </div>
+                            <div class="row" style="text-align: justify">
+                                <div class="col-12 text-justify">
+                                    <p>
+                                        Con fundamento en lo expuesto se CONCEDE a nombre del señor 
+                                        <t t-esc="o.partner_id.name.upper()"/> , portador de la cédula de 
+                                        identidad número <t t-esc="o.partner_id.vat"/> 
+                                        la licencia comercial para el desarrollo de la actividad de <t t-esc="o.activity_ids.name"/>
+                                            en el cantón de Río Cuarto. Quien a su vez se considera obligado del impuesto de 
+                                        patentes correspondiente. Es indispensable la cancelación previa 
+                                        del monto de cantidad en letras (<t t-esc="o.currency_id.amount_to_text(o.partner_id.outstanding)"/>) por concepto de 
+                                        pago de trimestre adelantado del impuesto de patentes. 
+                                        El pago por trimestre para el periodo el presente año será de cantidad en 
+                                        letras (<t t-esc="o.currency_id.amount_to_text(o.trimester_payment_total)"/>). 
+                                        Contra esta resolución caben los recursos 
+                                        de revocatoria y apelación en subsidio, de conformidad con el 
+                                        numeral 171 del Código Municipal. NOTIFÍQUESE. -
+                                    </p>     
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top:100px;margin-bottom: 0cm; line-height: 100%;">
+                                <div class="col-12 text-center bold">
+                                    <t t-esc="request.env.user.name.upper()"/>
+                                    <div class="col-12 text-center bold">
+                                        Encargado de Patentes
+                                    </div>
+                                </div>
+                            </div>
+                        </div> 
+                    </div>
+                </t>
+            </t>
+    </template>
+</odoo>

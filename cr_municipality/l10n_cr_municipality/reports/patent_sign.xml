@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <report
+        id="patent_certificate_sign"
+        model="l10n_cr.patent"
+        string="Para Firmar"
+        name="l10n_cr_municipality.patent_sign_document"
+        file="l10n_cr_municipality.patent_sign_document"
+        report_type="qweb-pdf"
+    />
+
+    <template id="patent_sign_document">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.basic_layout">
+                    <div class="header">
+                        <div class="row">
+                            <div class="col-4">
+                                <img t-att-src="image_data_uri(o.company_id.logo)" class="float-left" width="100" alt="Logo"/>
+                            </div>
+                            <div class="col-4 text-center">
+                                <h1>Solicitud de Patente</h1>
+                            </div>
+                            <div class="col-4 text-right">
+                                <h2 t-field="o.company_id.name"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="page">
+                        <div>
+                            <strong>Fecha:</strong>
+                            <span t-field="o.create_date"/>
+                        </div>
+                        <div>
+                            <strong>Solicitante:</strong>
+                            <span t-field="o.partner_id.name"/>
+                        </div>
+                        <div class="ml-3">
+                            <strong>Identificación:</strong>
+                            <span t-field="o.partner_id.vat"/>
+                        </div>
+                        <div class="ml-3">
+                            <strong>Teléfono:</strong>
+                            <span t-field="o.partner_id.phone"/>
+                        </div>
+                        <div class="ml-3">
+                            <strong>Correo:</strong>
+                            <span t-field="o.partner_id.email"/>
+                        </div>
+                        <div>
+                            <strong>Tipo de Patente:</strong>
+                            <span t-field="o.type_id"/>
+                        </div>
+                        <div>
+                            <strong>Nombre de Fantasía:</strong>
+                            <span t-field="o.fantasy_name"/>
+                        </div>
+                        <div>
+                            <strong>Actividad Comercial:</strong>
+                            <span t-field="o.commercial_activity"/>
+                        </div>
+                        <div>
+                            <strong>Actividad CIIU:</strong>
+                            <span t-field="o.activity_ids"/>
+                        </div>
+                        <div>
+                            <strong>Régimen:</strong>
+                            <span t-field="o.regimen"/>
+                        </div>
+                        <div>
+                            <strong>Categoria:</strong>
+                            <span t-field="o.category"/>
+                        </div>
+                        <div>
+                            <strong>Datos de la Propiedad:</strong>
+                            <span t-field="o.land_id.name"/>
+                        </div>
+                        <div class="ml-3">
+                            <strong>Dirección:</strong>
+                            <span t-field="o.land_id.address"/>
+                        </div>
+                        <div class="ml-3">
+                            <strong>Distrito:</strong>
+                            <span t-field="o.land_id.district_id.name"/>
+                        </div>
+                        <div class="ml-3">
+                            <strong>Nº de Plano:</strong>
+                            <span t-field="o.land_id.plan_number"/>
+                        </div>
+                        <div class="ml-3">
+                            <strong>Propietario:</strong>
+                            <span t-field="o.land_id.partner_id.name"/>
+                        </div>
+                        <div>
+                            <strong>Tipo Relación:</strong>
+                            <span t-field="o.relation_type"/>
+                        </div>
+                        <div>
+                            <strong>Area:</strong>
+                            <span t-field="o.area"/>
+                        </div>
+                        <div>
+                            <strong>Uso de suelo:</strong>
+                            <span t-field="o.land_use_number"/>
+                        </div>
+                        <div>
+                            <strong>Permiso Sanitario:</strong>
+                            <span t-field="o.sanitary_permit"/>
+                        </div>
+                        <div>
+                            <strong>Vencimiento Permiso Sanitario:</strong>
+                            <span t-field="o.sanitary_permit_expiration"/>
+                        </div>
+                        <div>
+                            <strong>Cumple Ley 7600:</strong>
+                            <span t-field="o.comply_7600"/>
+                        </div>
+                        <div>
+                            <strong>Ingresos Brutos:</strong>
+                            <span t-field="o.income_total"/>
+                        </div>
+                        <div>
+                            <strong>Requiere Patente de Licores:</strong>
+                            <span t-field="o.needs_liqueur"/>
+                        </div>
+                        <div>
+                            <strong>Cantidad de Empleados:</strong>
+                            <span t-field="o.employees_rel"/>
+                        </div>
+                        <div>
+                            <strong>Valor de los activos:</strong>
+                            <span t-field="o.actives_value_rel"/>
+                        </div>
+                        <div>
+                            <strong>Valor de ventas netas:</strong>
+                            <span t-field="o.sales_value_rel"/>
+                        </div>
+                        <div>
+                            <strong>Puntaje:</strong>
+                            <span t-field="o.score"/>
+                        </div>
+                    </div>
+                    <div class="footer">
+                        <div class="row mt-5">
+                            <div class="col-6 mx-1 text-center border-top">Firma Solicitante</div>
+                            <div class="col-6 mx-1 text-center border-top">Cédula</div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>
